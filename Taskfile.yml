@@ -1,0 +1,77 @@
+version: '3'
+
+includes:
+  localstack:
+    taskfile: taskfiles/localstack.yml
+
+tasks:
+  start:
+    aliases:
+      - run
+    desc: "Spin everything up"
+    cmds:
+      # Stop all containers, wipe all volumes
+      - pkgx docker-clean@latest stop || true
+
+      # Start containers
+      - docker compose up -d
+
+      # Start LocalStack
+      - task: localstack
+      
+      # Build and run Lambda
+      - task: lambda
+
+  localstack:
+    internal: true
+    cmd: |
+      docker run \
+        --platform linux/arm64 \
+        --rm -it -d \
+        -p 4566:4566 \
+        -p 4510-4559:4510-4559 \
+        -v "/var/run/docker.sock:/var/run/docker.sock" \
+        localstack/localstack
+        
+  lambda-build:
+    desc: "Builds the Lambda"
+    sources:
+      - "go.sum"
+      - "**/*.go"
+    cmds:
+      # Yes, it has to be called "bootstrap".
+      - |-
+        GOOS=linux \
+        GOARCH=arm64 \
+          go build \
+            -tags lambda.norpc \
+            -o bootstrap main.go
+            
+      # Zip up the binary
+      - zip bootstrap.zip bootstrap
+        
+  lambda:
+    desc: "Builds, zips, deletes, and creates the Lambda"
+    cmds:
+      # Build and zip up the Lambda
+      - task: lambda-build
+
+      # Delete the Lambda
+      - |-
+        pkgx awslocal@latest \
+          lambda delete-function \
+          --function-name my-lambda | cat
+
+      # Create the Lambda
+      - |-
+        pkgx awslocal@latest \
+          lambda create-function \
+          --runtime provided.al2 \
+          --function-name my-lambda \
+          --role arn:aws:iam::111122223333:role/lambda-ex \
+          --architectures arm64 \
+          --package-type Zip \
+          --handler bootstrap \
+          --environment "Variables={FOO=bar}" \
+          --tracing-config Mode=PassThrough \
+          --zip-file fileb://bootstrap.zip | cat
