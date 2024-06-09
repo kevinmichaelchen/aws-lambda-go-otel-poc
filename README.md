@@ -38,3 +38,4 @@ pkgx http \
 
 - **Trace export**: How does the Go app export to the Collector? Do we need to configure a TracerProvider?
 - **ADOT**: Do we need to use the AWS Distro of OTel Collector?
+- **AppSync Emulation with [Tailcall](https://tailcall.run/)**
