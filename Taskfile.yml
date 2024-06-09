@@ -1,9 +1,5 @@
 version: '3'
 
-includes:
-  localstack:
-    taskfile: taskfiles/localstack.yml
-
 tasks:
   start:
     aliases:
@@ -75,3 +71,10 @@ tasks:
           --environment "Variables={FOO=bar}" \
           --tracing-config Mode=PassThrough \
           --zip-file fileb://bootstrap.zip | cat
+      
+      # Create the Function URL
+      - |-
+        pkgx awslocal@latest \
+          lambda create-function-url-config \
+            --function-name my-lambda \
+            --auth-type NONE

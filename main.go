@@ -32,7 +32,7 @@ func Handle(
 	ctx context.Context,
 	req Request,
 ) (Response, error) {
-	log.Info("Hello there")
+	log.Info("Hello there", "request", req)
 
 	return Response{ID: req.ID}, nil
 }
