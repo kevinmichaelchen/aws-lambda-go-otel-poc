@@ -7,6 +7,13 @@ Proof of concept using [aws-lambda-go][aws-lambda-go] and [OpenTelemetry][otel].
 
 ## Getting started
 
+### Prerequisites
+
+All you need is [Docker][docker] and [pkgx][pkgx].
+
+[docker]: https://www.docker.com/
+[pkgx]: https://pkgx.sh/
+
 ### Run everything
 
 ```shell
