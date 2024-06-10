@@ -22,9 +22,9 @@ exporters:
 service:
   # Set DEBUG-level logs
   # https://github.com/open-telemetry/opentelemetry-collector/blob/main/docs/troubleshooting.md#troubleshooting
-  # telemetry:
-  #   logs:
-  #     level: "debug"
+#  telemetry:
+#    logs:
+#      level: "debug"
 
   pipelines:
     traces:

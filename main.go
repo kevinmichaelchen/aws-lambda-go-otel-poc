@@ -6,8 +6,10 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/charmbracelet/log"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda"
+	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
+	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	"strings"
@@ -40,10 +42,14 @@ func main() {
 		_ = tp.Shutdown(ctx)
 	}()
 
+	otel.SetTracerProvider(tp)
+
+	// Set global propagator to tracecontext (the default is no-op).
+	otel.SetTextMapPropagator(propagation.TraceContext{})
+
 	lambda.StartWithOptions(
 		otellambda.InstrumentHandler(
 			Handle,
-			otellambda.WithTracerProvider(tp),
 		),
 	)
 
@@ -95,7 +101,7 @@ func newSpanExporter() (sdktrace.SpanExporter, error) {
 
 	var opts []otlptracehttp.Option
 
-	endpoint := `http://localhost:4318`
+	endpoint := `http://host.docker.internal:4318`
 
 	switch {
 	case strings.HasPrefix(endpoint, "https://"):

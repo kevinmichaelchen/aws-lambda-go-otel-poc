@@ -2,6 +2,9 @@ services:
   collector:
     # TODO convert to ADOT
     image: otel/opentelemetry-collector
+    expose:
+      - 4317 # otlp grpc
+      - 4318 # otlp http
     ports:
       - "127.0.0.1:4317:4317" # otlp grpc
       - "127.0.0.1:4318:4318" # otlp http
