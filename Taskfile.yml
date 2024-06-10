@@ -18,6 +18,19 @@ tasks:
       # Build and run Lambda
       - task: lambda
 
+      # Start Tailcall GraphQL server
+      - task: tailcall
+
+  tailcall:
+    desc: "Starts Tailcall GraphQL server"
+    env:
+      TAILCALL_LOG_LEVEL: trace
+    cmds:
+      - pkgx killport@latest 8000
+      - |
+        pkgx tailcall@latest start \
+          ./tailcall/server.graphql
+
   localstack:
     internal: true
     cmd: |

@@ -1,0 +1,51 @@
+schema
+  # Specify server configuration.
+  # Start tailcall server at 0.0.0.0:8000
+  # Enable GraphiQL playground
+  @server(
+    port: 8000
+    showcase: true
+    queryValidation: true
+  )
+
+#  @telemetry(
+#    export: {
+#      otlp: {
+#        url: "http://localhost:4317"
+#      }
+#    }
+#  )
+
+  # Specify a base url for all HTTP requests.
+  @upstream(timeout: 5) {
+  query: Query
+  mutation: Mutation
+}
+
+input InvokeLambdaInput {
+  id: String!
+}
+
+type InvokeLambdaResponse {
+  id: String!
+}
+
+type Query {
+  invokeLambda(input: InvokeLambdaInput!): InvokeLambdaResponse!
+    @http(
+      baseURL: "http://localhost:4566"
+      path: "/2015-03-31/functions/my-lambda/invocations"
+      method: "POST"
+      body: "{{.args.input}}"
+    )
+}
+
+type Mutation {
+  invokeLambda(input: InvokeLambdaInput!): InvokeLambdaResponse!
+    @http(
+      baseURL: "http://localhost:4566"
+      path: "/2015-03-31/functions/my-lambda/invocations"
+      method: "POST"
+      body: "{{.args.input}}"
+    )
+}

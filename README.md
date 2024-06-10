@@ -41,6 +41,16 @@ pkgx http \
   id="4"
 ```
 
+#### (With GraphQL)
+
+```graphql
+mutation {
+  invokeLambda(input: {id: "1"}) {
+    id
+  }
+}
+```
+
 ### Step 3: Viewing the trace
 
 Open the [Jaeger UI][jaeger-ui].
