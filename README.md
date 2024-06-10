@@ -41,8 +41,22 @@ pkgx http \
   id="4"
 ```
 
+### Viewing the trace
+
+Open the [Jaeger UI][jaeger-ui].
+
+[jaeger-ui]: http://localhost:16686
+
 ## Remaining Questions
 
-- **Trace export**: How does the Go app export to the Collector? Do we need to configure a TracerProvider?
+- **Trace export**: `traces export: Post "http://localhost:4318/v1/traces": dial tcp 127.0.0.1:4318: connect: connection refused`
 - **ADOT**: Do we need to use the AWS Distro of OTel Collector?
 - **AppSync Emulation with [Tailcall](https://tailcall.run/)**
+
+## Environment Variables
+
+The default OTel env vars should be fine.
+
+See their [“OTLP Exporter Configuration” guide][guide].
+
+[guide]: https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter/
