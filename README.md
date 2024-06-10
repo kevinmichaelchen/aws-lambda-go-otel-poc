@@ -7,22 +7,22 @@ Proof of concept using [aws-lambda-go][aws-lambda-go] and [OpenTelemetry][otel].
 
 ## Getting started
 
-### Prerequisites
+### Step 0: Prerequisites
 
 All you need is [Docker][docker] and [pkgx][pkgx].
 
 [docker]: https://www.docker.com/
 [pkgx]: https://pkgx.sh/
 
-### Run everything
+### Step 1: Run everything
 
 ```shell
 pkgx task@latest run
 ```
 
-### Invoking the Lambda
+### Step 2: Invoking the Lambda
 
-#### CLI
+#### (With the CLI)
 
 ```shell
 pkgx awslocal@latest \
@@ -33,7 +33,7 @@ pkgx awslocal@latest \
     output.txt
 ```
 
-#### HTTP
+#### (With HTTP)
 
 ```shell
 pkgx http \
@@ -41,13 +41,15 @@ pkgx http \
   id="4"
 ```
 
-### Viewing the trace
+### Step 3: Viewing the trace
 
 Open the [Jaeger UI][jaeger-ui].
 
 [jaeger-ui]: http://localhost:16686
 
-## Remaining Questions
+## Miscellaneous
+
+### Remaining Questions
 
 - **Trace export**: `traces export: Post "http://localhost:4318/v1/traces": dial tcp 127.0.0.1:4318: connect: connection refused`
 - **ADOT**: Do we need to use the AWS Distro of OTel Collector?
