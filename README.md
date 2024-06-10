@@ -2,7 +2,13 @@
 
 Proof of concept using [aws-lambda-go][aws-lambda-go] and [OpenTelemetry][otel].
 
+This may interest you if you use AWS, Lambdas, Golang, and OpenTelemetry … or 
+if you're looking to emulate [AppSync Serverless GraphQL][appsync] locally and 
+do not wish to pay for a [LocalStack][localstack] license.
+
+[appsync]: https://aws.amazon.com/appsync/
 [aws-lambda-go]: https://github.com/aws/aws-lambda-go
+[localstack]: https://docs.localstack.cloud/user-guide/aws/appsync/
 [otel]: https://opentelemetry.io/
 
 ## Getting started
@@ -62,7 +68,6 @@ Open the [Jaeger UI][jaeger-ui].
 ### Remaining Questions
 
 - **ADOT**: Do we need to use the AWS Distro of OTel Collector?
-- **AppSync Emulation with [Tailcall](https://tailcall.run/)**
 
 ## Environment Variables
 
