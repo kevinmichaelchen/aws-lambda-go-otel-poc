@@ -51,7 +51,6 @@ Open the [Jaeger UI][jaeger-ui].
 
 ### Remaining Questions
 
-- **Trace export**: `traces export: Post "http://localhost:4318/v1/traces": dial tcp 127.0.0.1:4318: connect: connection refused`
 - **ADOT**: Do we need to use the AWS Distro of OTel Collector?
 - **AppSync Emulation with [Tailcall](https://tailcall.run/)**
 
